@@ -1,6 +1,6 @@
 // 1 Créez un tableau contenant les nombres de 1 à 10. Écrivez un programme qui affiche chaque élément du tableau à la console.
 
-const showArray = (array) => array.map((e) => console.log(e));
+const showArray = (array) => array.map((e) => e);
 
 // 2 Créez un tableau contenant les jours de la semaine. Écrivez un programme qui affiche le premier jour de la semaine à la console.
 
@@ -20,7 +20,15 @@ const showFirstWeekDay = () => {
 
 // 3 Créez un tableau contenant les nombres pairs de 2 à 10. Écrivez un programme qui calcule la somme des nombres du tableau et l'affiche à la console.
 
-const calcSumArray = (array) => array.reduce((e, a) => e + a);
+const calcSumArray = () => {
+  let array = [];
+  for (let i = 0; i <= 10; i++) {
+    if (i % 2 === 0) {
+      array.push(i);
+    }
+  }
+  return array.reduce((e, a) => e + a);
+};
 
 // 4 Créez un tableau contenant les noms de cinq fruits. Écrivez un programme qui ajoute un sixième fruit à la fin du tableau et affiche le tableau complet à la console.
 
