@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <% mascots.forEach(function(mascot) { %>
+    <li>
+      <strong><%= mascot.name %></strong>
+      representing <%= mascot.organization %>, born <%= mascot.birth_year %>
+    </li>
+    <% }); %>
+  </body>
+</html>
