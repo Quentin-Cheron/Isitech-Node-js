@@ -1,7 +1,12 @@
 import db from "../models/index.js";
 const user = db.user;
+const product = db.products;
 
 import bcryptjs from "bcryptjs";
+import ObjectID from "mongoose";
+ObjectID.Types.ObjectId;
+
+// Funtion for render the file
 
 export const signUpRender = async (req, res) => {
   const title = "Sign up";
@@ -11,6 +16,8 @@ export const signUpRender = async (req, res) => {
     breadCrumb,
   });
 };
+
+// Function for Sign up the user
 
 export const signUpData = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
@@ -30,19 +37,14 @@ export const signUpData = async (req, res) => {
     lastname,
     email: email.toLowerCase(),
     password: bcryptjs.hashSync(password, 8),
+    cart: [],
     createdAt: date,
   });
-
-  const title = "Sign in";
-  const breadCrumb = "Home > Sign in";
 
   await newUser
     .save(newUser)
     .then(() => {
-      res.render("sign-in", {
-        title,
-        breadCrumb,
-      });
+      res.redirect("/sign-in");
     })
     .catch((err) => {
       res.status(500).send({
@@ -50,6 +52,8 @@ export const signUpData = async (req, res) => {
       });
     });
 };
+
+// Function for render the file
 
 export const signInRender = async (req, res) => {
   const title = "Sign in";
@@ -59,6 +63,8 @@ export const signInRender = async (req, res) => {
     breadCrumb,
   });
 };
+
+// Function for sign in the user
 
 export const signInData = async (req, res) => {
   const { email, password } = req.body;
@@ -75,12 +81,63 @@ export const signInData = async (req, res) => {
     return res.send({ success: false, message: "User not found" });
   }
 
-  res.send({ success: true, message: "User signed in successfully" });
+  req.session.isLoggedIn = true;
+  req.session.user_id = existingUser._id;
 
-  const title = "Sign up";
-  const breadCrumb = "Home > Sign Up";
-  res.render("sign-in", {
+  res.redirect("/");
+};
+
+// Function for logout
+
+export const logout = async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/sign-in");
+    }
+  });
+};
+
+export const cartData = async (req, res) => {
+  const { label, price, description } = req.body;
+  const existingUser = await user.findOne({ ObjectID: req.session.user_id });
+
+  if (!existingUser) {
+    return res.send({ success: false, message: "User not found" });
+  }
+  const existingProduct = await product.findOne({
+    label,
+    price,
+    description,
+  });
+
+  const array = existingUser.cart;
+
+  if (existingProduct) {
+    await user.updateOne({
+      cart: [
+        ...array,
+        {
+          label,
+          price,
+          description,
+        },
+      ],
+    });
+  }
+
+  res.redirect("/");
+};
+
+export const cartRender = async (req, res) => {
+  const existingUser = await user.findOne({ ObjectID: req.session.user_id });
+  console.log(existingUser);
+  const title = "Shop Standard";
+  const breadCrumb = "Shop Standard";
+  res.render("cart", {
     title,
     breadCrumb,
+    products: existingUser.cart,
   });
 };

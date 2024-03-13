@@ -92,6 +92,9 @@ section#products {
 
 section#products img {
   border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 section#products h2, section#products .price {
@@ -136,6 +139,11 @@ section#products i {
   justify-content: center;
   cursor: pointer;
   overflow: hidden;
+  visibility: visible;
+}
+
+section#products button {
+  visibility: hidden;
 }
 
 section#products i::after {
@@ -154,4 +162,44 @@ section#products i:hover::after {
   background-color: rgba(128, 128, 128, .3);
   position: absolute;
   left: 0;
+}
+
+/* formulaire */
+
+form:where(.sign-in, .sign-up) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+form:where(.sign-in, .sign-up) div {
+  display: flex;
+  flex-direction: column;
+}
+
+form:where(.sign-in, .sign-up) div input {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(128, 128, 128, .3);
+}
+
+form:where(.sign-in, .sign-up) button {
+  background: transparent;
+  outline: none;
+  border: 1px solid rgba(128, 128, 128, .3);
+  width: max-content;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+section#cart article {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+section#cart article h2 {
+  text-transform: capitalize;
 }

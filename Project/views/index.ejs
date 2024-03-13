@@ -25,7 +25,16 @@
     <section id="products">
       <% for (let i = 0; i < products.length; i++ ) { %>
       <article>
-        <a href="/cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        <form method="post" action="/cart">
+          <input type="hidden" name="label" value="<%= products[i].label %>" />
+          <input type="hidden" name="price" value="<%= products[i].price %>" />
+          <input
+            type="hidden"
+            name="description"
+            value="<%= products[i].description %>"
+          />
+          <button><i class="fa-solid fa-cart-shopping"></i></button>
+        </form>
         <img src="img/img-<%= i %>.png" alt="" />
         <div class="details">
           <span class="price"><%= products[i].price %></span>

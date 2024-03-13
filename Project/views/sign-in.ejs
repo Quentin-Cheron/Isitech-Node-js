@@ -17,12 +17,12 @@
     ></script>
   </head>
   <body>
-    <form method="POST">
-      <%- include('./includes/header') %>
-      <div class="banner">
-        <h1><%= title %></h1>
-        <span><%= breadCrumb %></span>
-      </div>
+    <%- include('./includes/header') %>
+    <div class="banner">
+      <h1><%= title %></h1>
+      <span><%= breadCrumb %></span>
+    </div>
+    <form method="POST" class="sign-in">
       <div>
         <label for="email">Email</label>
         <input type="email" name="email" id="email" />

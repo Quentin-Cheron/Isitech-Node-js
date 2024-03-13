@@ -12,7 +12,3 @@ export const showProducts = async (req, res) => {
     breadCrumb,
   });
 };
-
-export const cart = async (req, res) => {
-  res.render("cart");
-};

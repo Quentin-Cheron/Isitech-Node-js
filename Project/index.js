@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import session from "express-session";
 
 dotenv.config();
 
@@ -12,6 +13,17 @@ app.use(bodyParser());
 // database connection
 import "./config/database.js";
 
+// use session
+
+app.use(
+  session({
+    secret: "secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 },
+  })
+);
+
 // Configure
 
 app.use(express.static("public"));
@@ -21,11 +33,19 @@ app.set("views", "views");
 
 const PORT = process.env.PORT || 7000;
 
+// Route for user
+
 import userRoute from "./routes/user.route.js";
 app.use("/", userRoute);
 
+// Route for products
+
 import productRoute from "./routes/products.route.js";
 app.use("/", productRoute);
+
+app.get("/protected", (req, res) => {
+  res.json({ session: req.session });
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
