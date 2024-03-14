@@ -6,8 +6,6 @@ const Products = mongoose.model(
     label: String,
     price: String,
     description: String,
-    img: String,
-    createdAt: Date,
   })
 );
 

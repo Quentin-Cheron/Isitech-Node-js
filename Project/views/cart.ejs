@@ -25,9 +25,10 @@
     <section id="cart">
       <% for (let i = 0; i < products.length; i++ ) { %>
       <article>
-        <h2><%= products[i].label %></h2>
-        <span><%= products[i].price %>$</span>
-        <p><%= products[i].description %></p>
+        <h2>Title : <%= products[i].label %></h2>
+        <span>Price : <%= products[i].price %>$</span>
+        <p>Description : <%= products[i].description %></p>
+        <p>Totals number : <%= products[i].number %></p>
       </article>
       <% } %>
     </section>

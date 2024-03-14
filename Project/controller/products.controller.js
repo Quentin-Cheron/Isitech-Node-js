@@ -1,6 +1,8 @@
 import db from "../models/index.js";
 const products = db.products;
 
+// Get all Products
+
 export const showProducts = async (req, res) => {
   const allProducts = await products.find({});
 

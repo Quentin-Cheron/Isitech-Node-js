@@ -1,32 +1,16 @@
 import mongoose from "mongoose";
+import Products from "./products.model.js";
+import User from "./user.model.js";
 mongoose.Promise = global.Promise;
 
 const db = {};
 
 db.mongoose = mongoose;
 
-//authentification
+// User models
 
-db.user = mongoose.model(
-  "users",
-  new mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    email: String,
-    password: String,
-    cart: Array,
-    role: String,
-    createdAt: Date,
-  })
-);
+db.user = User;
 
-db.products = mongoose.model(
-  "products",
-  new mongoose.Schema({
-    label: String,
-    price: String,
-    description: String,
-  })
-);
+db.products = Products;
 
 export default db;

@@ -22,6 +22,8 @@ export const signUpRender = async (req, res) => {
 export const signUpData = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
 
+  // Check if the user already exist
+
   const existingUser = await user.findOne({
     email: email.toLowerCase(),
   });
@@ -32,6 +34,8 @@ export const signUpData = async (req, res) => {
 
   const date = new Date();
 
+  // Create model of insert
+
   const newUser = new user({
     firstname,
     lastname,
@@ -41,6 +45,8 @@ export const signUpData = async (req, res) => {
     role: "client",
     createdAt: date,
   });
+
+  // Insert the user
 
   await newUser
     .save(newUser)
@@ -73,20 +79,18 @@ export const signInData = async (req, res) => {
   const existingUser = await user.findOne({ email: email.toLowerCase() });
 
   if (!existingUser) {
-    res.render("sign-in", {
-      title,
-      breadCrumb,
-    });
+    return res.send({ success: false, message: "User already exist !" });
   }
+
+  // Check if the password is valid
 
   const passwordIsValid = bcryptjs.compareSync(password, existingUser.password);
 
   if (!passwordIsValid) {
-    res.render("sign-in", {
-      title,
-      breadCrumb,
-    });
+    return res.send({ success: false, message: "User already exist !" });
   }
+
+  //Add add in session
 
   req.session.isLoggedIn = true;
   req.session.user_id = existingUser._id;
@@ -95,7 +99,7 @@ export const signInData = async (req, res) => {
   res.redirect("/");
 };
 
-// Function for logout
+// Function for logout the user
 
 export const logout = async (req, res) => {
   req.session.destroy((err) => {
@@ -106,6 +110,8 @@ export const logout = async (req, res) => {
     }
   });
 };
+
+// Function for add product to cart
 
 export const cartData = async (req, res) => {
   const { label, price, description } = req.body;
@@ -122,22 +128,38 @@ export const cartData = async (req, res) => {
 
   const array = existingUser.cart;
 
+  const findProducts = array.findIndex((e) => e.label === label);
+
   if (existingProduct) {
-    await user.updateOne({
-      cart: [
-        ...array,
+    if (findProducts >= 0) {
+      await user.updateOne(
         {
-          label,
-          price,
-          description,
-          id: existingProduct._id,
+          "cart.number": existingUser.cart[findProducts].number,
         },
-      ],
-    });
+        {
+          $inc: { "cart.$.number": 1 },
+        }
+      );
+    } else {
+      await user.updateOne({
+        cart: [
+          ...array,
+          {
+            label,
+            price,
+            description,
+            number: 1,
+            id: existingProduct._id,
+          },
+        ],
+      });
+    }
   }
 
   res.redirect("/");
 };
+
+// Function for render all product in the cart
 
 export const cartRender = async (req, res) => {
   const existingUser = await user.findOne({ _id: req.session.user_id });

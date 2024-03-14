@@ -195,9 +195,15 @@ form:where(.sign-in, .sign-up, .products) button {
 }
 
 section#cart article {
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+section#cart article :where(span, p) {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
 section#cart article h2 {

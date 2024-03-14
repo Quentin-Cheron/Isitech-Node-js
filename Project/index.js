@@ -20,7 +20,7 @@ app.use(
     secret: "secret-key",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 * 60 * 24 },
+    cookie: { maxAge: 60000 * 60 * 60 },
   })
 );
 
@@ -42,6 +42,8 @@ app.use("/", userRoute);
 
 import productRoute from "./routes/products.route.js";
 app.use("/", productRoute);
+
+// Route for admin
 
 import adminRoute from "./routes/admin.route.js";
 app.use("/", adminRoute);

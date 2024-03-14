@@ -2,6 +2,8 @@ import db from "../models/index.js";
 const user = db.user;
 const product = db.products;
 
+// Render all products
+
 export const updateProductsRender = async (req, res) => {
   const existingProducts = await product.find({});
   const title = "Products list";
@@ -12,6 +14,8 @@ export const updateProductsRender = async (req, res) => {
     products: existingProducts,
   });
 };
+
+// Update the selected product with new data
 
 export const updateProductsData = async (req, res) => {
   const { label, price, description, id } = req.body;

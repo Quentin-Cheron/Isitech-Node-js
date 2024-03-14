@@ -7,7 +7,14 @@ const User = mongoose.model(
     lastname: String,
     email: String,
     password: String,
-    cart: Array,
+    cart: [
+      {
+        label: String,
+        price: String,
+        description: String,
+        number: Number,
+      },
+    ],
     role: String,
     createdAt: Date,
   })

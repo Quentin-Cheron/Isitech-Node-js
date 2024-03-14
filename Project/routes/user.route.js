@@ -12,6 +12,8 @@ import {
   cartRender,
 } from "../controller/user.controller.js";
 
+// Check if the user is connected
+
 const checkUserConnection = (req, res, next) => {
   if (req.session.isLoggedIn) {
     next();
