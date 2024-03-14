@@ -20,7 +20,7 @@ app.use(
     secret: "secret-key",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 60000 * 60 * 24 },
   })
 );
 
@@ -42,6 +42,9 @@ app.use("/", userRoute);
 
 import productRoute from "./routes/products.route.js";
 app.use("/", productRoute);
+
+import adminRoute from "./routes/admin.route.js";
+app.use("/", adminRoute);
 
 app.get("/protected", (req, res) => {
   res.json({ session: req.session });

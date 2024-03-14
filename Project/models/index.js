@@ -15,6 +15,7 @@ db.user = mongoose.model(
     email: String,
     password: String,
     cart: Array,
+    role: String,
     createdAt: Date,
   })
 );

@@ -8,6 +8,7 @@ const User = mongoose.model(
     email: String,
     password: String,
     cart: Array,
+    role: String,
     createdAt: Date,
   })
 );

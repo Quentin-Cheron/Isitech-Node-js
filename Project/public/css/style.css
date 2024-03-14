@@ -166,26 +166,26 @@ section#products i:hover::after {
 
 /* formulaire */
 
-form:where(.sign-in, .sign-up) {
+form:where(.sign-in, .sign-up, .products) {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px;
 }
 
-form:where(.sign-in, .sign-up) div {
+form:where(.sign-in, .sign-up, .products) div {
   display: flex;
   flex-direction: column;
 }
 
-form:where(.sign-in, .sign-up) div input {
+form:where(.sign-in, .sign-up, .products) div input {
   margin-top: 5px;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid rgba(128, 128, 128, .3);
 }
 
-form:where(.sign-in, .sign-up) button {
+form:where(.sign-in, .sign-up, .products) button {
   background: transparent;
   outline: none;
   border: 1px solid rgba(128, 128, 128, .3);
@@ -202,4 +202,21 @@ section#cart article {
 
 section#cart article h2 {
   text-transform: capitalize;
+}
+
+form.products {
+  display: flex;
+  align-items: flex-end;
+}
+
+form.products button {
+  height: 37px;
+}
+
+footer {
+  height: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
 }

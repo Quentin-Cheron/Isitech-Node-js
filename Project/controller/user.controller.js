@@ -38,6 +38,7 @@ export const signUpData = async (req, res) => {
     email: email.toLowerCase(),
     password: bcryptjs.hashSync(password, 8),
     cart: [],
+    role: "client",
     createdAt: date,
   });
 
@@ -72,17 +73,24 @@ export const signInData = async (req, res) => {
   const existingUser = await user.findOne({ email: email.toLowerCase() });
 
   if (!existingUser) {
-    return res.send({ success: false, message: "User not found" });
+    res.render("sign-in", {
+      title,
+      breadCrumb,
+    });
   }
 
   const passwordIsValid = bcryptjs.compareSync(password, existingUser.password);
 
   if (!passwordIsValid) {
-    return res.send({ success: false, message: "User not found" });
+    res.render("sign-in", {
+      title,
+      breadCrumb,
+    });
   }
 
   req.session.isLoggedIn = true;
   req.session.user_id = existingUser._id;
+  req.session.role = existingUser.role;
 
   res.redirect("/");
 };
@@ -101,7 +109,7 @@ export const logout = async (req, res) => {
 
 export const cartData = async (req, res) => {
   const { label, price, description } = req.body;
-  const existingUser = await user.findOne({ ObjectID: req.session.user_id });
+  const existingUser = await user.findOne({ _id: req.session.user_id });
 
   if (!existingUser) {
     return res.send({ success: false, message: "User not found" });
@@ -122,6 +130,7 @@ export const cartData = async (req, res) => {
           label,
           price,
           description,
+          id: existingProduct._id,
         },
       ],
     });
@@ -131,13 +140,13 @@ export const cartData = async (req, res) => {
 };
 
 export const cartRender = async (req, res) => {
-  const existingUser = await user.findOne({ ObjectID: req.session.user_id });
-  console.log(existingUser);
+  const existingUser = await user.findOne({ _id: req.session.user_id });
   const title = "Shop Standard";
   const breadCrumb = "Shop Standard";
+  const products = existingUser.cart;
   res.render("cart", {
     title,
     breadCrumb,
-    products: existingUser.cart,
+    products,
   });
 };
